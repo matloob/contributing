@@ -41,9 +41,9 @@ changes -- the reviewers weren't out to get me, the comments were just their way
 of teaching me how to contribute. And I've grown comfortable with some parts of
 the code base, such as our tools and the regular expressions package.
 
-This talk is an attempt to help you on your way to becoming a contributor.
+This talk is an attempt to help you get started in becoming a contributor.
 Hopefully it can save you some time on your path...
-
+        
 # Don't be (too) intimidated!
 
 ![](slides/dont_be_too_intimidated.png)
@@ -102,7 +102,7 @@ of common-sense that's really easy to forget sometimes...
 ![](slides/overview.png)
 
 Alright. The rest of the talk is structured as follows. First, I'll go over the
-components in the Go project, and the tools resources you'll be using as a
+components in the Go project, and the tools and resources you'll be using as a
 contributor.
 
 I'll then talk about some ways you can get started as a contributor, and give a
@@ -128,18 +128,18 @@ and 'mobile' contains support for developing Go apps that run on iOS or android.
 ![golang.org](slides/golang_org.png)
 
 golang.org has a number of resources for contributors. Of particular interest to
-contributors we have
-
-![golang.org project](slides/golang_org_how_you_can_help.png)
+contributors we have...
 
 "The Go Project" page, which links to a number of resources about the project,
 especially
 
-![contributing guidelines](slides/golang_org_contribute_1.png) 
+![contributing guidelines](slides/golang_org_contribute.png) 
 
 the "Contribution Guidelines". The contribution guidelines contain a lot of
 the contribution instructions in this talk. You should definitely take a look
 if you're interested in contributing!
+
+Don't worry about everything up here, I'll go over all of this later in the talk.
 
 # Github
 
@@ -182,9 +182,7 @@ Remember, they're scoring the change, it's not personal.
 
 # End to end example
 
-
-
-![subtests example](slides/example_subtests_example.png)
+![subtests example](slides/example_subtests.png)
 
 Let's go through an end-to-end example of making a change to Go.
 
@@ -196,35 +194,50 @@ regular expression.
 This feature allows us write multiple benchmarks in the same function.
 It's pretty nifty.
 
-![subtests example](slides/example_subtests_example.png)
-
-So there's four main steps Marcel went through to get this change through. First,
-make a proposal issue,  since this is a pretty major feature, Marcel also wrote
-a proposal document with more details. 
-
-After the community agreed to the change, the actual code changes were prepared
-and reviewed.
-
-And once 1.7 is released, everyone'll be able to use this feature in their tests!
-
 ![end to end issue](slides/example_subtests_issue.png)
 
-The proposal issue contains a description of the feature and a rational for
-the feature. Discussion of the feature happens on the issue.
+This feature was contributed by Marcel, one of our contributors,
+who has the github handle mpvl.
 
-![end_to_end_proposal](slides/example_subtests_proposal_1.png)
+Let's take a look at the steps Marcel went through to add this feature.
 
-Then, for a involved change like this, we put together a proposal document.
+First, Marcel makes a proposal issue.
+
+This is the Github issue page where the proposal was made.
+
+The proposal issue contains a description of the feature and a rationale for
+the feature.
+
+By the way, that golang.org link at the bottom is a convenience link
+that redirects to github.
+
+![end_to_end_proposal](slides/example_subtests_proposal.png)
+
+Then, since this is a pretty major feature, we put together a proposal document.
+
+Proposal documents are sent as markdown files and checked into the 'proposal'
+repo. This is what the checked in proposal looks like as rendered by Github.
+
 This document has sections introducing the problem being solved with the change,
 a through description of the change being proposed and how it solves the problem,
 an exampination of alternatives, and an implementation strategy.
+
+The discussion of the change continues on the code review of this doc
+and on the git hub issue. Eventually consensus is reached on the issue.
+Now Marcel can start writing code for the implementation.
 
 ![end_to_end_change](slides/example_subtests_polygerrit.png)
 
 And then, send changes, this feature required a number of changes, this is just
 the last one. Notice the +2 approving the change to be submitted.
 
-![end_to_end diff](slides/example_subtest_diff.png)
+This is the main gerrit codereview page for this particular change.
+We have a special  golang.org/cl link that redirects to the change.
+
+Oh, and I'm showing you the newer gerrit UI, called polygerrit.
+You can follow that link over here to toggle it on.
+
+![end_to_end diff](slides/example_subtests_diff.png)
 
 Here's an example of what codereview looks like. Marcel sent out the change,
 Russ wrote a comment (on the comments) and then Marcel updated a new version
@@ -239,7 +252,7 @@ filing bugs, updating docs, or adding test cases.
 
 ## Filing bugs... and investigating them
 
-![](slides/beginners_bugs.png)
+![](slides/golang_org_issue_new.png)
 
 You probably won't go hunting for bugs when you're a beginner, because bugs
 often show up when you least expect it. But if you do encounter a bug, we'd love

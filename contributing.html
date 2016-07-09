@@ -3,7 +3,6 @@
     <meta charset="UTF-8">
     <style>img {width: 100%} p,h1,h2 {font-family: "helvetica"} pre {margin-left: 5em}</style>
 </head>
-<body>
 <h1>CONTRIBUTING: The Talk!</h1>
 
 <p>Michael Matloob 11 July 2016</p>
@@ -47,7 +46,7 @@ changes -- the reviewers weren&rsquo;t out to get me, the comments were just the
 of teaching me how to contribute. And I&rsquo;ve grown comfortable with some parts of
 the code base, such as our tools and the regular expressions package.</p>
 
-<p>This talk is an attempt to help you on your way to becoming a contributor.
+<p>This talk is an attempt to help you get started in becoming a contributor.
 Hopefully it can save you some time on your path&hellip;</p>
 
 <h1>Don&rsquo;t be (too) intimidated!</h1>
@@ -108,7 +107,7 @@ of common-sense that&rsquo;s really easy to forget sometimes&hellip;</p>
 <p><img src="slides/overview.png" alt="" /></p>
 
 <p>Alright. The rest of the talk is structured as follows. First, I&rsquo;ll go over the
-components in the Go project, and the tools resources you&rsquo;ll be using as a
+components in the Go project, and the tools and resources you&rsquo;ll be using as a
 contributor.</p>
 
 <p>I&rsquo;ll then talk about some ways you can get started as a contributor, and give a
@@ -134,18 +133,18 @@ and &lsquo;mobile&rsquo; contains support for developing Go apps that run on iOS
 <p><img src="slides/golang_org.png" alt="golang.org" /></p>
 
 <p>golang.org has a number of resources for contributors. Of particular interest to
-contributors we have</p>
-
-<p><img src="slides/golang_org_how_you_can_help.png" alt="golang.org project" /></p>
+contributors we have&hellip;</p>
 
 <p>&ldquo;The Go Project&rdquo; page, which links to a number of resources about the project,
 especially</p>
 
-<p><img src="slides/golang_org_contribute_1.png" alt="contributing guidelines" /></p>
+<p><img src="slides/golang_org_contribute.png" alt="contributing guidelines" /></p>
 
 <p>the &ldquo;Contribution Guidelines&rdquo;. The contribution guidelines contain a lot of
 the contribution instructions in this talk. You should definitely take a look
 if you&rsquo;re interested in contributing!</p>
+
+<p>Don&rsquo;t worry about everything up here, I&rsquo;ll go over all of this later in the talk.</p>
 
 <h1>Github</h1>
 
@@ -188,7 +187,7 @@ into the official git tree. A &ldquo;-2&rdquo; score overrules any &ldquo;+2&rdq
 
 <h1>End to end example</h1>
 
-<p><img src="slides/example_subtests_example.png" alt="subtests example" /></p>
+<p><img src="slides/example_subtests.png" alt="subtests example" /></p>
 
 <p>Let&rsquo;s go through an end-to-end example of making a change to Go.</p>
 
@@ -200,35 +199,50 @@ regular expression.
 This feature allows us write multiple benchmarks in the same function.
 It&rsquo;s pretty nifty.</p>
 
-<p><img src="slides/example_subtests_example.png" alt="subtests example" /></p>
-
-<p>So there&rsquo;s four main steps Marcel went through to get this change through. First,
-make a proposal issue,  since this is a pretty major feature, Marcel also wrote
-a proposal document with more details.</p>
-
-<p>After the community agreed to the change, the actual code changes were prepared
-and reviewed.</p>
-
-<p>And once 1.7 is released, everyone&rsquo;ll be able to use this feature in their tests!</p>
-
 <p><img src="slides/example_subtests_issue.png" alt="end to end issue" /></p>
 
-<p>The proposal issue contains a description of the feature and a rational for
-the feature. Discussion of the feature happens on the issue.</p>
+<p>This feature was contributed by Marcel, one of our contributors,
+who has the github handle mpvl.</p>
 
-<p><img src="slides/example_subtests_proposal_1.png" alt="end_to_end_proposal" /></p>
+<p>Let&rsquo;s take a look at the steps Marcel went through to add this feature.</p>
 
-<p>Then, for a involved change like this, we put together a proposal document.
-This document has sections introducing the problem being solved with the change,
+<p>First, Marcel makes a proposal issue.</p>
+
+<p>This is the Github issue page where the proposal was made.</p>
+
+<p>The proposal issue contains a description of the feature and a rationale for
+the feature.</p>
+
+<p>By the way, that golang.org link at the bottom is a convenience link
+that redirects to github.</p>
+
+<p><img src="slides/example_subtests_proposal.png" alt="end_to_end_proposal" /></p>
+
+<p>Then, since this is a pretty major feature, we put together a proposal document.</p>
+
+<p>Proposal documents are sent as markdown files and checked into the &lsquo;proposal&rsquo;
+repo. This is what the checked in proposal looks like as rendered by Github.</p>
+
+<p>This document has sections introducing the problem being solved with the change,
 a through description of the change being proposed and how it solves the problem,
 an exampination of alternatives, and an implementation strategy.</p>
+
+<p>The discussion of the change continues on the code review of this doc
+and on the git hub issue. Eventually consensus is reached on the issue.
+Now Marcel can start writing code for the implementation.</p>
 
 <p><img src="slides/example_subtests_polygerrit.png" alt="end_to_end_change" /></p>
 
 <p>And then, send changes, this feature required a number of changes, this is just
 the last one. Notice the +2 approving the change to be submitted.</p>
 
-<p><img src="slides/example_subtest_diff.png" alt="end_to_end diff" /></p>
+<p>This is the main gerrit codereview page for this particular change.
+We have a special  golang.org/cl link that redirects to the change.</p>
+
+<p>Oh, and I&rsquo;m showing you the newer gerrit UI, called polygerrit.
+You can follow that link over here to toggle it on.</p>
+
+<p><img src="slides/example_subtests_diff.png" alt="end_to_end diff" /></p>
 
 <p>Here&rsquo;s an example of what codereview looks like. Marcel sent out the change,
 Russ wrote a comment (on the comments) and then Marcel updated a new version
@@ -243,7 +257,7 @@ filing bugs, updating docs, or adding test cases.</p>
 
 <h2>Filing bugs&hellip; and investigating them</h2>
 
-<p><img src="slides/beginners_bugs.png" alt="" /></p>
+<p><img src="slides/golang_org_issue_new.png" alt="" /></p>
 
 <p>You probably won&rsquo;t go hunting for bugs when you&rsquo;re a beginner, because bugs
 often show up when you least expect it. But if you do encounter a bug, we&rsquo;d love
