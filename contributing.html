@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <style>img {width: 100%} p,h1,h2 {font-family: "helvetica"} pre {margin-left: 5em}</style>
+</head>
+<body>
+<h1>CONTRIBUTING: The Talk!</h1>
+
+<p>Michael Matloob 11 July 2016</p>
+
+<p>Interested in contributing to the Go Programming Language open source project,
+but don’t know where to start? Come learn how you can get involved and find
+something to work on.</p>
+
+<p>If you’re already contributing, come learn how to more effectively review CLs
+and help make the contribution process smoother for others.</p>
+
+<hr />
+
+<p>Hi!</p>
+
+<h1>Contributing, The Talk!</h1>
+
+<p><img src="slides/title.png" alt="title" /></p>
+
+<p>Welcome to &ldquo;CONTRIBUTING: The Talk&rdquo;! My goal for this talk is to help those of
+you who want to contribute to the Go Programming Language Open Source project to
+get involved and start contributing. We&rsquo;ve got some stuff for veteran
+contributors too near the end.</p>
+
+<h1>matloob&rsquo;s story</h1>
+
+<p><img src="slides/matloobs_story.png" alt="matloob's story" /></p>
+
+<p>This is the talk I wish I&rsquo;d seen when I started contributing to the Go project.</p>
+
+<p>When I started contributing, I didn&rsquo;t how to start. I took on a linker bug that
+I didn&rsquo;t know how to fix, and I got really intimidated by the comments on the
+changes that I sent out. So intimidated that I took a break for more than a
+year.</p>
+
+<p>The second time around, I was better equipped. I found more a suitable task to
+work on, a tool to move go packages to a new path in a source tree. And as I
+made changes, I eventually figured out some of the rules and conventions in
+contributing. I realized that it was okay to receive critical comments on my
+changes -- the reviewers weren&rsquo;t out to get me, the comments were just their way
+of teaching me how to contribute. And I&rsquo;ve grown comfortable with some parts of
+the code base, such as our tools and the regular expressions package.</p>
+
+<p>This talk is an attempt to help you on your way to becoming a contributor.
+Hopefully it can save you some time on your path&hellip;</p>
+
+<h1>Don&rsquo;t be (too) intimidated!</h1>
+
+<p><img src="slides/dont_be_too_intimidated.png" alt="" /></p>
+
+<p>Contributing to Go may seem intimidating at times. And it is intimidating! It&rsquo;s
+important code that a lot of people depend on. Even the core developers on the
+project are mindful of making only the right changes and often have their
+proposals rejected. The Go project is not an experimental project anymore --
+it&rsquo;s serious business for a lot of people.</p>
+
+<p>But you shouldn&rsquo;t be too intimidated! There are lots of ways to get involved for
+every level of experience, and I&rsquo;ll show you a couple of options in this talk.</p>
+
+<h1>It&rsquo;s all about the people! Be nice!</h1>
+
+<p><img src="slides/be_nice.png" alt="" /></p>
+
+<p>We shouldn&rsquo;t forget that as contributors, we&rsquo;re not just working with <em>code</em>,
+but also with people. It goes without saying that we follow the Code of Conduct
+for contributors, but there&rsquo;s more than just following the rules -- we should be
+nice to each other!</p>
+
+<p>There&rsquo;s no non-verbal context when communicating on our mailing lists, so
+consider how your words might seem to someone who can&rsquo;t see you. There are a lot
+of times when we&rsquo;ll have to say no to a proposal or a change. If you&rsquo;re already
+a contributor, and it&rsquo;s your responsibility to say no to your fellow
+contributor, you should be careful to communicate that it&rsquo;s not personal, and
+you still welcome them in our community.</p>
+
+<p>Conversely, when you&rsquo;re getting feedback and constructive criticism about your
+work from other members in the community, it&rsquo;s easy to read it in a negative
+subtext. Sometimes I read comments from people that say to &ldquo;change X&rdquo; and I
+might still read it as &ldquo;change X, stupid!&rdquo; but that&rsquo;s not what they said. They
+just want Go to be the best it can be, just like I do. So don&rsquo;t get scared if
+you see your changelists bleeding with red ink -- that&rsquo;s a good thing!</p>
+
+<p>When you&rsquo;re a beginner, those early rounds of review are part of the learning
+process. As you anticipate our patterns, edits to later CLs become lighter. And
+the whole time, our code&rsquo;s getting better too!</p>
+
+<p>With all this said, it&rsquo;s good to keep in mind that everyone involved in Go is
+very, very busy, and since we&rsquo;re human we sometimes don&rsquo;t take enough time to
+communicate carefully.</p>
+
+<p>When that happens, give the reviewer the benefit of the doubt. If you&rsquo;re upset
+by it, reach out to them off list to clear the air.</p>
+
+<p><img src="slides/win_friends.png" alt="" /></p>
+
+<p>On a personal note, I&rsquo;ve found the book &ldquo;How to win friends and influence
+people&rdquo; to be really useful for this &lsquo;communication&rsquo; thing. It&rsquo;s full of a lot
+of common-sense that&rsquo;s really easy to forget sometimes&hellip;</p>
+
+<h1>Overview</h1>
+
+<p><img src="slides/overview.png" alt="" /></p>
+
+<p>Alright. The rest of the talk is structured as follows. First, I&rsquo;ll go over the
+components in the Go project, and the tools resources you&rsquo;ll be using as a
+contributor.</p>
+
+<p>I&rsquo;ll then talk about some ways you can get started as a contributor, and give a
+demo of making a code contribution.</p>
+
+<p>I&rsquo;ll finish with tips and advice for more complex contributors.</p>
+
+<h1>The go repositories</h1>
+
+<p><img src="slides/the_go_repositories.png" alt="" /></p>
+
+<p>go is divided into several repositories&hellip;.</p>
+
+<p>The core repository contains the compiler and runtime, standard library and
+docs for Go. It&rsquo;s basically the stuff that&rsquo;s distributed by the Go installer.</p>
+
+<p>The subrepos contain packages and other tools that have been developed as part
+of the project. For instance, &lsquo;tools&rsquo; contains tools such as guru and goimports,
+and &lsquo;mobile&rsquo; contains support for developing Go apps that run on iOS or android.</p>
+
+<h1>golang.org</h1>
+
+<p><img src="slides/golang_org.png" alt="golang.org" /></p>
+
+<p>golang.org has a number of resources for contributors. Of particular interest to
+contributors we have</p>
+
+<p><img src="slides/golang_org_how_you_can_help.png" alt="golang.org project" /></p>
+
+<p>&ldquo;The Go Project&rdquo; page, which links to a number of resources about the project,
+especially</p>
+
+<p><img src="slides/golang_org_contribute_1.png" alt="contributing guidelines" /></p>
+
+<p>the &ldquo;Contribution Guidelines&rdquo;. The contribution guidelines contain a lot of
+the contribution instructions in this talk. You should definitely take a look
+if you&rsquo;re interested in contributing!</p>
+
+<h1>Github</h1>
+
+<p><img src="slides/github.png" alt="github" /></p>
+
+<p>We use Github primarisy for its issue tracker. It also hosts our wiki.</p>
+
+<p>But it&rsquo;s not our primary Git repository, it&rsquo;s just a mirror.</p>
+
+<p>And we don&rsquo;t accept pull requests to github.</p>
+
+<p>We have our own git hosting and code review systems.</p>
+
+<h1>go.googlesource.com</h1>
+
+<p><img src="slides/go_googlesource_com.png" alt="go.googlesource.com" /></p>
+
+<p>go.googlesource.com is the official source for the Go source. Both the go
+core repository and the subrepositories are hosted here. You can browse the git
+log and branches and download the repositories here too.</p>
+
+<h1>golang.org/cl</h1>
+
+<p><img src="slides/golang_org_cl.png" alt="golang.org/cl" /></p>
+
+<p>And we use a different codereview tool also. It&rsquo;s called Gerrit.</p>
+
+<p>Our codereviewers, who are contributors like you, examine and approve every
+change we make to our source code. If they think something needs to be changed,
+they&rsquo;ll post a comment on your change, and you can respond to comments and make
+changes in future revisions.</p>
+
+<p>Reviewers can &lsquo;score&rsquo; changes to either allow or bar a change from making
+it into our system. A &ldquo;+2&rdquo; score is an approval for a change to be submitted
+into the official git tree. A &ldquo;-2&rdquo; score overrules any &ldquo;+2&rdquo;&rsquo;s and blocks submissions.</p>
+
+<p>There are also &ldquo;+1&rdquo; and &ldquo;-1&rdquo; which express softer approval or disapproval.</p>
+
+<p>Remember, they&rsquo;re scoring the change, it&rsquo;s not personal.</p>
+
+<h1>End to end example</h1>
+
+<p><img src="slides/example_subtests_example.png" alt="subtests example" /></p>
+
+<p>Let&rsquo;s go through an end-to-end example of making a change to Go.</p>
+
+<p>Our example will be the new subtests feature coming in 1.7.</p>
+
+<p>Before each test case or benchmark would have to be written as its own function.
+So there&rsquo;d be one benchmark for each combination of input string length and
+regular expression.
+This feature allows us write multiple benchmarks in the same function.
+It&rsquo;s pretty nifty.</p>
+
+<p><img src="slides/example_subtests_example.png" alt="subtests example" /></p>
+
+<p>So there&rsquo;s four main steps Marcel went through to get this change through. First,
+make a proposal issue,  since this is a pretty major feature, Marcel also wrote
+a proposal document with more details.</p>
+
+<p>After the community agreed to the change, the actual code changes were prepared
+and reviewed.</p>
+
+<p>And once 1.7 is released, everyone&rsquo;ll be able to use this feature in their tests!</p>
+
+<p><img src="slides/example_subtests_issue.png" alt="end to end issue" /></p>
+
+<p>The proposal issue contains a description of the feature and a rational for
+the feature. Discussion of the feature happens on the issue.</p>
+
+<p><img src="slides/example_subtests_proposal_1.png" alt="end_to_end_proposal" /></p>
+
+<p>Then, for a involved change like this, we put together a proposal document.
+This document has sections introducing the problem being solved with the change,
+a through description of the change being proposed and how it solves the problem,
+an exampination of alternatives, and an implementation strategy.</p>
+
+<p><img src="slides/example_subtests_polygerrit.png" alt="end_to_end_change" /></p>
+
+<p>And then, send changes, this feature required a number of changes, this is just
+the last one. Notice the +2 approving the change to be submitted.</p>
+
+<p><img src="slides/example_subtest_diff.png" alt="end_to_end diff" /></p>
+
+<p>Here&rsquo;s an example of what codereview looks like. Marcel sent out the change,
+Russ wrote a comment (on the comments) and then Marcel updated a new version
+of the change respondig to the comment.</p>
+
+<h1>Beginners!</h1>
+
+<p><img src="slides/beginners.png" alt="" /></p>
+
+<p>If you&rsquo;re a beginner contributor to the Go project we&rsquo;d recommend starting by
+filing bugs, updating docs, or adding test cases.</p>
+
+<h2>Filing bugs&hellip; and investigating them</h2>
+
+<p><img src="slides/beginners_bugs.png" alt="" /></p>
+
+<p>You probably won&rsquo;t go hunting for bugs when you&rsquo;re a beginner, because bugs
+often show up when you least expect it. But if you do encounter a bug, we&rsquo;d love
+a report. And there&rsquo;s no harm in filing duplicates! So even if it seems like we
+must have already seen a bug, you can send the report anyway!</p>
+
+<p>To file a bug, go to golang.org/issue/new, which will pop up a form with
+prompts for details about your issue.</p>
+
+<p>And if you see a bug already in the tracker, but don&rsquo;t know how to fix it, you
+can still help! Investigating and clarifying bugs is extremely helpful. Creating
+a test case or reproduction for a bug, (or minimizing a complex one) is a huge
+help in getting it fixed.</p>
+
+<h2>Updating docs</h2>
+
+<p><img src="slides/beginners_docs.png" alt="" /></p>
+
+<p>No nit is too small when it comes to our docs. If there&rsquo;s anything that&rsquo;s not
+clear, either in godoc comments or the documentation on golang.org, Just make a
+change to the go git repository and send it to us.</p>
+
+<p><img src="slides/golang_org_doc_1.png" alt="golang_org_doc" /></p>
+
+<p>By the way, the documentation on golang.org is contained in the go repository in
+the &lsquo;doc&rsquo; directory.</p>
+
+<p><img src="slides/golang_org_wiki.png" alt="the wiki" /></p>
+
+<p>We also have a wiki that&rsquo;s open to edits by any github user. Go to
+golang.org/wiki and click the edit button to make changes there&hellip;</p>
+
+<h2>Adding test cases</h2>
+
+<p><img src="slides/beginners_test_cases.png" alt="" /></p>
+
+<p>Another good way for a beginner to get involved is by contributing test cases.
+Or benchmarks -- they&rsquo;re kind of like test cases&hellip;</p>
+
+<p><img src="slides/re2_dfa.png" alt="" /></p>
+
+<p>So&hellip; I&rsquo;ve recently been working on a change to the regexp
+package. It&rsquo;s a port of the fast (but complicated) RE2 DFA matcher to Go. [slide
+regexp change] But there were three [sic] problems: first-- I didn&rsquo;t have my
+work done in time before the freeze (more on the freeze later) and second-- I
+didn&rsquo;t have enough of a justification that the complexity was worth it.</p>
+
+<p>One way of doing that is to demonstrate an improvement on the benchmarks, but
+the benchmarks that are currently checked in are pretty easy for the current NFA
+matcher&hellip; Let&rsquo;s try checking in something a bit harder&hellip;</p>
+
+<p><img src="slides/re2_fanout.png" alt="" /></p>
+
+<p>Such as this one from the C++ RE2 regular expressions implementation&hellip; Oh look, &ldquo;NFA
+execution will be particularly slow&rdquo;&hellip; just what we need!</p>
+
+<h2>DEMO TIME!</h2>
+
+<p><img src="slides/demo_time.png" alt="" /></p>
+
+<p>Let&rsquo;s add that benchmark to the Go regular expressions benchmark suite. The change I&rsquo;m going
+to make is to add that fanout testcase to the regexp benchmark we saw earlier.</p>
+
+<p>Okay, let&rsquo;s start&hellip; I&rsquo;ll assume that you&rsquo;ve already installed Go using one of
+the installers you can download on &ldquo;golang.org/dl&rdquo;. On my Mac, that puts the Go
+tree in /usr/local/go. Okay, let me set up my shell environment</p>
+
+<pre><code>export EDITOR=&quot;code&quot;
+export GOPATH=&quot;$HOME&quot;
+export GOROOT_BOOTSTRAP=/usr/local/go
+PATH=&quot;$GOPATH/bin:$PATH&quot;
+</code></pre>
+
+<p>So I&rsquo;m setting my EDITOR env variable and I&rsquo;m also setting my GOPATH to $HOME,
+both of which are personal preferences. I&rsquo;m also setting this special
+GOROOT_BOOTSTRAP environment variable. This is only necessary if you want to
+build the Go compiler toolchain or standard library in the core repository. The
+Go compiler toolchain is built using Go and we need to have an already existing go
+installation at GOROOT_BOOTSTRAP to do the building. I&rsquo;m also adding the my
+GOPATH&rsquo;s bin directory to my path. We&rsquo;ll be go getting some tools that will help
+us with the contributing process. But first, let&rsquo;s get the code we&rsquo;re going to
+hack on.</p>
+
+<p>It&rsquo;s available at the go git repository at go.googlesource.com. Let&rsquo;s git clone
+it. I&rsquo;m just going to put it in my home directory.</p>
+
+<pre><code>git clone https://go.googlesource.com/go
+</code></pre>
+
+<p>Okay, now let&rsquo;s build it. We&rsquo;ve got a script called &ldquo;all.bash&rdquo; in the src
+directory that builds and tests the go tree. It&rsquo;s a good idea to run it after
+downloading the tree to make sure everything&rsquo;s in working order</p>
+
+<pre><code>pushd go/src
+./all.bash
+</code></pre>
+
+<p>All right, this is going to take a while! Now let&rsquo;s get those tools!</p>
+
+<pre><code>go get -u golang.org/x/review/git-codereview
+</code></pre>
+
+<p>Let&rsquo;s also install some shortcuts in git. These will make it a little easier to
+use the codereview tools we just installed&hellip;</p>
+
+<pre><code>$EDITOR .gitconfig
+
+[alias]
+    change = codereview change
+    gofmt = codereview gofmt
+    mail = codereview mail
+    pending = codereview pending
+    submit = codereview submit
+    sync = codereview sync
+</code></pre>
+
+<p>Great&hellip;</p>
+
+<p>Let&rsquo;s check back on our build&hellip;</p>
+
+<pre><code>&lt; blah blah&gt;
+</code></pre>
+
+<p>Ok, now let&rsquo;s make the change. The file we&rsquo;re changing is regexp/exec_test.go</p>
+
+<pre><code>ed
+
+685a
+{&quot;Fanout&quot;, &quot;(?:[\\x{80}-\\x{10FFFF}]?){100}[\\x{80}-\\x{10FFFF}]&quot;}
+</code></pre>
+
+<p>great!</p>
+
+<p>Now let&rsquo;s test things</p>
+
+<p>So all.bash takes a long time to run, so it would be nice to be able to test
+things out without running all.bash every time. So here&rsquo;s the trick: the go
+binary has, embedded within it, the path to its standard library and compiler
+code. So if I run</p>
+
+<pre><code>go test regexp
+</code></pre>
+
+<p>with the go tool in my path at /usr/local/go/bin/go, it will run the regexp
+tests on the source code in /usr/local/go/src/regexp. But, if I use the new tool
+I&rsquo;ve built</p>
+
+<pre><code>$HOME/go/bin/go test regexp
+</code></pre>
+
+<p>it will run tests using the source code in my home directory, which I&rsquo;m hacking
+on. One thing I like to do when I&rsquo;m developing is to add $HOME/go/bin to the
+front of my path to use the go tool I&rsquo;m hacking on instead of the stable version</p>
+
+<pre><code>PATH=&quot;$HOME/go/bin:$PATH&quot;
+
+go version
+</code></pre>
+
+<p>so now I&rsquo;m using the new version of go.</p>
+
+<p>Let&rsquo;s run all.bash anyways in the background, we can restart it if our change
+doesn&rsquo;t work</p>
+
+<pre><code>./all.bash
+</code></pre>
+
+<p>and now, let me run my benchmark</p>
+
+<pre><code>go test -run None -bench BenchmarkMatch$/Fanout
+</code></pre>
+
+<p>cool.</p>
+
+<h2>Interlude: CL descriptions</h2>
+
+<p><img src="slides/change_descriptions.png" alt="" /></p>
+
+<p>We use change descriptions to communicate both to our reviewer and to future
+contributors. Our reviewer understand what the change is adding as context
+when reviewing the change. A future contributor might want to understand why a
+certain change was made.</p>
+
+<p><img src="slides/anatomy_change_description.png" alt="" /></p>
+
+<p>Let&rsquo;s take a look at the structure of a change description:</p>
+
+<p>The path we&rsquo;re making the change to. This is the subdirectory of src in for
+the core repo.</p>
+
+<p>Then there&rsquo;s a short summary that explains what the change does.</p>
+
+<p>After that, we provide more details about the change.</p>
+
+<p>Finally, if the change has a related github issue (and it should unless the
+change is really simple), we reference it.</p>
+
+<p>The subject to be in the following tense:</p>
+
+<pre><code>&quot;add frob to the glob&quot;
+</code></pre>
+
+<p>rather than</p>
+
+<pre><code>&quot;adding frob to the glob&quot;
+</code></pre>
+
+<p>or</p>
+
+<pre><code>&quot;adds frob to the glob&quot;
+</code></pre>
+
+<p>Aside: As an example of what not to do: I was once hacking on a change and set
+the subjuct line to &ldquo;i XXX&rdquo; with the plan to go back and revise it before
+sending it out. But I &ldquo;git mail&rdquo;ed it before fixing the subject line, and all
+the emails sent out for the change had the subject &ldquo;i XXX&rdquo;&hellip;, even after I
+changed the commit message. A bunch of people were annoyed by this&hellip;. And I had
+to scrap the change and send a new one out that had a reasonable subject line&hellip;</p>
+
+<p>Ok. Let my write my description&hellip;</p>
+
+<pre><code>regexp: add the Fanout benchmark
+
+This is a copy of the &quot;FANOUT&quot; benchmark recently added to RE2 with the
+following comment:
+
+    // This has quite a high degree of fanout.
+    // NFA execution will be particularly slow.
+
+Most of the benchmarks on the regexp package have very little fanout and
+are designed for comparing the regexp package's NFA with backtracking
+engines found in other regular expression libraries. This benchmark
+exercises the performance of the NFA on expressions with high fanout.
+</code></pre>
+
+<h2>Generating password</h2>
+
+<p><img src="slides/generate_password.png" alt="" /></p>
+
+<p>Ok we&rsquo;re almost ready to get this change reviewed. Two more things:</p>
+
+<p>First, we need to generate a cookie to communicate our identity to the codereview tool</p>
+
+<p>I&rsquo;m going to skip demoing this part since the page generates a key that&rsquo;ll let
+you submit changes as me. But let&rsquo;s take a look at the process.</p>
+
+<p>Go to go.googlesource.com and log in. Then click &ldquo;generate password&rdquo;. That will take you to a
+page with some code you can paste into your shell to add the key.</p>
+
+<pre><code>go.googlesource.com
+&lt;generate password&gt;
+&lt;paste stuff&gt;
+</code></pre>
+
+<h2>CLA</h2>
+
+<p><img src="slides/CLA.png" alt="" /></p>
+
+<p>We&rsquo;d also need to file a
+Contributor License Agreement granting the Go project a copyright license to
+redistribute your code. git mail will ask you to do that if you haven&rsquo;t yet.
+Here&rsquo;s how to get to the agreement&hellip; golang.org/cl Here&rsquo;s what it looks like.
+[[slide]].</p>
+
+<p>Now, I&rsquo;ve already got a CLA, but git mail still needs to know who I am before
+letting me send out my change.</p>
+
+<h2>Codereview</h2>
+
+<p><img src="slides/code_review.png" alt="" /></p>
+
+<p>Ok.</p>
+
+<p>All changes to the go source tree, including doc comments, the &lsquo;doc/&rsquo; directory
+and test cases require codereview. After you send out your change, it will be
+triaged and a reviewer (or multiple reviewers) will post comments to the change.
+Multiple rounds of review are normal, even for small changes. And don&rsquo;t forget
+to run gofmt and the tests every time you upload your review.</p>
+
+<p>Let&rsquo;s mail our change out:</p>
+
+<pre><code>git mail
+
+&lt;error&gt;
+</code></pre>
+
+<p>Let&rsquo;s try again</p>
+
+<pre><code>git mail
+
+&lt;review review review&gt;
+
+'git sync' syncs your client to tip
+'git change -a' to update the change'
+'git mail' to mail out a new revisien.
+</code></pre>
+
+<p>Once your reviewer is happy with your change, they&rsquo;ll give you a &lsquo;+2&rsquo; on your
+commit. That means they think your change is ready to be submitted.</p>
+
+<p>And with all that done, your change will be ready to be submitted! While you&rsquo;re
+a beginner contributor you&rsquo;ll have to ask your reviewer to submit your change
+for you. (We&rsquo;ll give you committer rights once we&rsquo;re sick of submitting your
+changes for you :) )</p>
+
+<h1>What if no one responds?</h1>
+
+<p>When you&rsquo;re contributing, you might find that no one responds to your changes.
+If that happens, your best bet is to send a friendly ping on the change.
+The same goes to issue requests.</p>
+
+<p>It happens that changes fall to the cracks -- we aren&rsquo;t deliberately ignoring
+you! So just ping the change to surface it.</p>
+
+<p>On the other hand because people are busy, you might need to wait a day or two
+before getting a response to your change or comments. It&rsquo;s best to give your
+reviewer <em>some</em> time to respond before pinging.</p>
+
+<h1>Intermediate level contributions</h1>
+
+<p><img src="slides/intermediate.png" alt="" /></p>
+
+<p>Okay, so we&rsquo;ve talked about making simple contributions&hellip; let&rsquo;s talk about more
+complex changes:</p>
+
+<p>Any work more complicated than what we&rsquo;ve already mentioned generally requires
+an bug tracker issue that&rsquo;s been accepted, and in even more involved cases, a
+proposal.</p>
+
+<h2>The Go release cycle and the freeze</h2>
+
+<p><img src="slides/release_cycle.png" alt="" /></p>
+
+<p>And another thing: we&rsquo;ll accept bug reports, doc changes and small tests and
+benchmarks year round, but you should be mindful of the Go release cycle if
+you&rsquo;re contributing code or doing anything more complex, especially on the core
+go repository.</p>
+
+<p>Each Go release is about 6 months long. The Go tree is open for development for
+the first three months of the cycle, and enters the freeze for the second three
+months. During the freeze, we&rsquo;ll generally only make changes to fix major bugs
+or regressions introduced during the development phase. We&rsquo;re currently in the
+freeze for the 1.7 release cycle. When 1.7 is released in August, the tree will
+thaw and the 1.8 development phase will begin.</p>
+
+<p>The tree will then be open for general contributions for three months, after
+which the 1.8 freeze will begin.</p>
+
+<p>If you&rsquo;re itching to make a change, you can still send it out and add the
+comment &ldquo;R=go1.8&rdquo;, but it won&rsquo;t be looked at and can&rsquo;t be submitted until the
+thaw.</p>
+
+<p><img src="slides/r=go1.8.png" alt="" /></p>
+
+<p>Here&rsquo;s a R=go1.8 example. I didn&rsquo;t finish my regexp work in time, so we added
+a comment with the text &ldquo;r=go1.8&rdquo; to indicate to our tools and contributors that
+this change should be ignored till the thaw.</p>
+
+<h2>Fixing accepted bugs</h2>
+
+<p><img src="slides/fixing_bugs.png" alt="" /></p>
+
+<p>If you see an open issue with no assignee you should feel free to take it on.
+Comment on the issue to let people know that you&rsquo;re working on it so we can
+avoid having people do the same work twice. Then send in your change as before.</p>
+
+<p>It&rsquo;s ok if you&rsquo;ve volunteered to fix an issue, but find that you don&rsquo;t
+have the time. But if that happens, remember to send another comment letting
+people know that the change is open for a new assignee&hellip;</p>
+
+<p>Once you have a fix, send it to us. Most changes should include tests,
+especially if you&rsquo;re fixing a bug!</p>
+
+<h2>Proposing features and changes</h2>
+
+<p><img src="slides/proposals.png" alt="" /></p>
+
+<p>If you want to make a change introducing new behavior or features to the runtime
+and compiler, standard libraries, tools, or subrepos, start by filing an
+issue.</p>
+
+<p>The project contributors will review the issue and make a decision to accept the
+proposal, reject it, or ask for a proposal document. Discussion will continue on
+the issue tracker until a decision is made.</p>
+
+<p>Aside: The <em>language</em> is more or less frozen and language changes must be small,
+focused, and address a significant need in the ecosystem.</p>
+
+<p>TODO: make a proposal? I&rsquo;m thinking that I can file a proposal for tagging
+goroutines with profiler tags.</p>
+
+<p>In contrast, much of the new work that&rsquo;s being done is more behind the scenes:
+for example optimizations and bugfixes in the the standard library, GC
+improvements in the runtime, refactoring and the SSA backend in the compiler,
+and vendoring support in the tools and, there&rsquo;s a lot of work that&rsquo;s being done
+in the subrepos.</p>
+
+<h2>Becoming more involved in the project over time.</h2>
+
+<p><img src="slides/becoming_more_involved.png" alt="" /></p>
+
+<p>Our contributors come from many different backgrounds and have different
+motivations for contributing to the project. So everyone&rsquo;s path is going to be
+different&hellip; but let&rsquo;s take a step back and look at an example of a progression
+of involvement on the project:</p>
+
+<p>If there&rsquo;s a particular part of the project that you&rsquo;re interested in, start by
+reading the code. If you&rsquo;re confused, that might be an opportunity! It might
+mean that there are missing test cases or documentation. Look for bugs in the
+github issue tracker that are relevant to that part and try to fix them. Once
+you&rsquo;ve fixed a number of issues and start becoming more familiar with the code
+base, you might get some ideas for changes you want to make and things you want
+to fix, so you might start making suggestions to the issue tracker or filing
+proposals. And you might start watching for changes done in the directory and
+adding review comments.</p>
+
+<p>Eventually, we&rsquo;ll get tired of submitting your changes for you and we&rsquo;ll make
+you a committer, so you can submit them yourself. But you&rsquo;ll also be able to
+grant &ldquo;+2&rdquo;&rsquo;s to other changes, approving them to be submitted, and to submit
+changes for new contributors. At this point you might become active in reviewing
+changes to that part of the codebase.</p>
+
+<h1>Tips for reviewers</h1>
+
+<p><img src="slides/tips_for_reviewers.png" alt="" /></p>
+
+<p>And now, some tips for reviewers.</p>
+
+<p>One of the most helpful ways to contribute to the Go project is by reviewing
+changes. You can actually start reviewing changes even before you become a
+committer. And even if you&rsquo;re not familiar with the codebase, there are a few
+things most contributors can help point out in reviews:</p>
+
+<ul>
+<li><p>Don&rsquo;t be afraid to say &ldquo;I don&rsquo;t understand this function&rdquo;. It might cause
+the author to provide a good explanation in a comment, or better still, to
+simplify the code. (We love simple code!)</p></li>
+
+<li><p>You can suggest improvements to change descriptions. Remember that
+descriptions have a particular format</p></li>
+
+<li><p>You can suggest code style improvements. All new code added to the go
+project must should follow the guidlines in &lsquo;Effective Go&rsquo;, and the style
+advice collected in the &lsquo;Go review comments doc&rsquo; at golang.org/s/style.</p></li>
+
+<li><p>All non-trivial changes should point back to the GitHub issue they&rsquo;re
+addressing. Proposals should be approved before work starts on them</p></li>
+</ul>
+
+<p>It&rsquo;s okay to be picky; but when you are, acknowledge that you are. Sometimes
+people feel like they&rsquo;re being blocked, when really you&rsquo;re just addressing a
+small quibble that is ultimately not a big deal.</p>
+
+<p>And don&rsquo;t forget, anyone can make review comments on changes. You don&rsquo;t need to
+be a committer to help out with reviews.</p>
+
+<h1>Closing comments:</h1>
+
+<p><img src="slides/remember_be_nice.png" alt="" /></p>
+
+<p>Remember: this is true for every contributor, but especially for advanced
+contributors. You&rsquo;re representing the go community. Remember to be nice!</p>
+
+<p>And of course,</p>
+
+<h1>Thank you for contributing!</h1>
+
+<p><img src="slides/thank_you.png" alt="" /></p>
+
+<p><em>Thank you</em> to ALL our contributors for your contributings! Y&rsquo;all make our
+project great!</p>
+
+<p><em>Thank you</em> to ALL our reviewers for the time you spend reviewing. The work you
+do in improving our code quality and teaching our contributors is invaluable!</p>
