@@ -613,7 +613,7 @@ reviewer _some_ time to respond before pinging.
 
 # Advanced contributors
 
-![](slides/advanced.png)
+![](slides/advanced_contributors.png)
 
 Okay, so we've talked about making simple contributions... let's talk about more
 complex changes:
