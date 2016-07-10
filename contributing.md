@@ -110,18 +110,28 @@ demo of making a code contribution.
 
 I'll finish with tips and advice for more complex contributors.
 
-# The go repositories
+# The go project
 
-![](slides/the_go_repositories.png)
+![](slides/the_go_project.png)
 
-go is divided into several repositories.... 
+Let's take a look at the components of the go project.
+
+![](slides/go_core.png)
 
 The core repository contains the compiler and runtime, standard library and
 docs for Go. It's basically the stuff that's distributed by the Go installer.
 
+![](slides/go_subrepos.png)
+
 The subrepos contain packages and other tools that have been developed as part
 of the project. For instance, 'tools' contains tools such as guru and goimports,
 and 'mobile' contains support for developing Go apps that run on iOS or android.
+
+# The tools
+
+![](slides/the_tools.png)
+
+Now, let's take a look at the tools.
 
 # golang.org
 
@@ -147,11 +157,13 @@ Don't worry about everything up here, I'll go over all of this later in the talk
 
 We use Github primarisy for its issue tracker. It also hosts our wiki.
 
-But it's not our primary Git repository, it's just a mirror.
+This is what the go github page looks like.
 
-And we don't accept pull requests to github.
+![](slides/github_mirror.png)
 
-We have our own git hosting and code review systems.
+But we don't accept pull requests to github.
+
+It's not our primary Git repository, it's just a mirror.
 
 # go.googlesource.com
 
@@ -161,24 +173,61 @@ go.googlesource.com is the official source for the Go source. Both the go
 core repository and the subrepositories are hosted here. You can browse the git
 log and branches and download the repositories here too.
 
+![](slides/golang_org_x_magic.png)
+
+The subrepos, which have import paths that start with golang.org/x/
+are also stored on googlesource. We've got some magic set up that redirects
+go get to the appropriate git repos.
+
 # golang.org/cl
 
-![golang.org/cl](slides/golang_org_cl.png)
+![golang.org/cl](slides/gerrit.png)
 
 And we use a different codereview tool also. It's called Gerrit.
 
-Our codereviewers, who are contributors like you, examine and approve every
-change we make to our source code. If they think something needs to be changed,
-they'll post a comment on your change, and you can respond to comments and make
-changes in future revisions.
+This is where new code contributors add to the go project goes through a process of
+peer review.
 
-Reviewers can 'score' changes to either allow or bar a change from making
-it into our system. A "+2" score is an approval for a change to be submitted
-into the official git tree. A "-2" score overrules any "+2"'s and blocks submissions.
+For now let's take a look at what it looks like
 
-There are also "+1" and "-1" which express softer approval or disapproval.
+![](slides/gerrit_change.png)
 
-Remember, they're scoring the change, it's not personal.
+If we click on one of the entries, we get the page for that entry.
+
+Gerrit and other code review tools allow us to review code by posting comments
+and assigning scores. We can do both by clicking on the 'reply' button.
+
+Gerrit has a notion of scores...
+
+![](slides/gerrit_zero.png)
+
+A zero score is neutral.
+
+![](slides/gerrit_minus_two.png)
+
+A minus two means that the reviewer thinks there's a significant problem with the change
+that needs to be fixed. It blocks a change from being submitted, or merged into our git repo until
+it's retracted.
+
+![](slides/gerrit_minus_one.png)
+
+A minus one means the reviewer thinks there may be issues with the change, but it doesn't
+block submission.
+
+![](slides/gerrit_plus_one.png)
+
+A plus one means the reviewer likes the change, but thinks it needs approval from another
+contributor before it's submitted.
+
+![](slides/gerrit_plus_two.png)
+
+A plus two means that the reviewer thinks the change is ready to be submitted. Every change
+needs to get a +2 before it gets submitted.
+
+This particular change already has a plus two, as you can see on the left hand side
+of the screen.
+
+We'll talk more about what codereview later in the talk.
 
 # End to end example
 
@@ -275,14 +324,13 @@ No nit is too small when it comes to our docs. If there's anything that's not
 clear, either in godoc comments or the documentation on golang.org, Just make a
 change to the go git repository and send it to us.
 
-![golang_org_doc](slides/golang_org_doc_1.png)
+![golang_org_doc](slides/golang_org_doc.png)
 
 By the way, the documentation on golang.org is contained in the go repository in
-the 'doc' directory.
+the 'doc' directory. You can see golang.org/docs on the left side of this slide.
 
-![the wiki](slides/golang_org_wiki.png)
-
-We also have a wiki that's open to edits by any github user. Go to
+On the right side of the slide, you can see our wiki.
+It's on github, and it's open to edits by any github user. Go to
 golang.org/wiki and click the edit button to make changes there...
 
 ## Adding test cases
@@ -308,6 +356,10 @@ matcher... Let's try checking in something a bit harder...
 
 Such as this one from the C++ RE2 regular expressions implementation... Oh look, "NFA
 execution will be particularly slow"... just what we need!
+
+Don't worry too much about the C++ code on this page. The important part here is
+the string containing the regular expression. We'll be able to copy it straight
+into the Go regular expressions benchmarks.
 
 ## DEMO TIME!
 
@@ -370,95 +422,104 @@ Let's check back on our build...
 
     < blah blah>
 
-Ok, now let's make the change. The file we're changing is regexp/exec_test.go
+Ok, now let's make the change.
 
-    ed
+First I'm going to use git change to make a new branch and switch to it...
 
-    685a
+    git change fanout
+
+The file we're changing is regexp/exec_test.go
+
+(add the following code)
+
     {"Fanout", "(?:[\\x{80}-\\x{10FFFF}]?){100}[\\x{80}-\\x{10FFFF}]"}
 
 great!
 
 Now let's test things
 
-So all.bash takes a long time to run, so it would be nice to be able to test
-things out without running all.bash every time. So here's the trick: the go
-binary has, embedded within it, the path to its standard library and compiler
-code. So if I run
+So we want to run the regular expressions tests and benchmark. Usually, we use
 
     go test regexp
 
-with the go tool in my path at /usr/local/go/bin/go, it will run the regexp
-tests on the source code in /usr/local/go/src/regexp. But, if I use the new tool
-I've built
+to run the regular expressions tests and benchmarks. But the go tool has
+embedded within it the path to its source code, so go test regexp is going to
+run the tests for our stable go installation
+
+What we want to do here is to use the version of go we're hacking on.
+all.bash puts the built go binary in $HOME/go/bin/go. Let's check its version
+       
+    $HOME/go/bin/go version
+
+Cool. And
 
     $HOME/go/bin/go test regexp
+    
+will run the regexp tests
 
-it will run tests using the source code in my home directory, which I'm hacking
-on. One thing I like to do when I'm developing is to add $HOME/go/bin to the
-front of my path to use the go tool I'm hacking on instead of the stable version
+Alright. Let's run the new benchmarks
 
-    PATH="$HOME/go/bin:$PATH"
+    go test regexp -run None -bench BenchmarkMatch$/Fanout
 
-    go version
+This command tells the testing tool to not run any tests, and to only
+run the fanout benchmarks. It uses the new subbenchmark matching functionality
+added by Marcel.
 
-so now I'm using the new version of go.
+cool!
 
-Let's run all.bash anyways in the background, we can restart it if our change
-doesn't work
+## Change is ready!
 
-    ./all.bash
+![](slides/change_is_ready.png)
 
-and now, let me run my benchmark
-
-    go test -run None -bench BenchmarkMatch$/Fanout
-
-cool.
-
-## Interlude: CL descriptions
+## CL descriptions
 
 ![](slides/change_descriptions.png)
 
 We use change descriptions to communicate both to our reviewer and to future
-contributors. Our reviewer understand what the change is adding as context
-when reviewing the change. A future contributor might want to understand why a
+contributors. Our reviewer wants to understand what the change is adding as context
+when reviewing the change. A future contributor may want to understand why a
 certain change was made.
 
 ![](slides/anatomy_change_description.png)
 
-
 Let's take a look at the structure of a change description:
+
+(by the way, this is what the change looks like on googlesource.com)
 
 The path we're making the change to. This is the subdirectory of src in for
 the core repo.
 
-Then there's a short summary that explains what the change does. 
+Then there's a short summary that explains what the change does.
+
+Of all the parts of the change description this line is the most important part.
 
 After that, we provide more details about the change.
 
 Finally, if the change has a related github issue (and it should unless the
 change is really simple), we reference it.
 
-The subject to be in the following tense:
+![](slides/change_descriptions_gopherbot.png)
 
-    "add frob to the glob"
+We've got some magic that links between changes an issue. If a change
+mentions an issue, gopherbot will post a comment on the change, and when
+a fixing change is submitted, gopherbot will close the issue.
 
-rather than
+Just to stress the importance of the first line of the change description,
+here's an example of what not to do.
 
-    "adding frob to the glob"
+![](slides/change_descriptions_what_not_to_do.png)
 
-or
-
-    "adds frob to the glob"
-
-Aside: As an example of what not to do: I was once hacking on a change and set
+I was once hacking on a change and set
 the subjuct line to "i XXX" with the plan to go back and revise it before
 sending it out. But I "git mail"ed it before fixing the subject line, and all
 the emails sent out for the change had the subject "i XXX"..., even after I
 changed the commit message. A bunch of people were annoyed by this.... And I had
 to scrap the change and send a new one out that had a reasonable subject line...
+Once you send out your change for review, the email subject line is fixed.
 
-Ok. Let my write my description...
+Ok. Back to the demo.
+
+Let my write my description...
 
     regexp: add the Fanout benchmark
 
@@ -487,10 +548,6 @@ you submit changes as me. But let's take a look at the process.
 Go to go.googlesource.com and log in. Then click "generate password". That will take you to a
 page with some code you can paste into your shell to add the key.
 
-    go.googlesource.com
-    <generate password>
-    <paste stuff>
-
 ## CLA
 
 ![](slides/CLA.png)
@@ -510,29 +567,28 @@ letting me send out my change.
 
 Ok.
 
-All changes to the go source tree, including doc comments, the 'doc/' directory
-and test cases require codereview. After you send out your change, it will be
-triaged and a reviewer (or multiple reviewers) will post comments to the change.
+The next step is to get our change code reviewed.
+
+In the code review process, you and your reviewers (who are contributors like
+you) work together to improve your change. 
+
+The reviewers examine and approve every
+change we make to our source code. If they think something needs to be changed,
+they'll post a comment on your change, and you can respond to comments and make
+changes in future revisions.
+
 Multiple rounds of review are normal, even for small changes. And don't forget
 to run gofmt and the tests every time you upload your review.
+
+Reviewers will also use the gerrit scores we saw earlier to allow a change to be
+submitted or to block it. These scores help ensure that there's agreement on
+the change that's being made before it's submitted. 
+
+Remember, they're scoring the change, it's not personal.
 
 Let's mail our change out:
 
     git mail
-
-    <error>
-
-
-
-Let's try again
-
-    git mail
-
-    <review review review>
-
-    'git sync' syncs your client to tip
-    'git change -a' to update the change'
-    'git mail' to mail out a new revisien.
 
 Once your reviewer is happy with your change, they'll give you a '+2' on your
 commit. That means they think your change is ready to be submitted.
@@ -548,16 +604,16 @@ When you're contributing, you might find that no one responds to your changes.
 If that happens, your best bet is to send a friendly ping on the change.
 The same goes to issue requests.
 
-It happens that changes fall to the cracks -- we aren't deliberately ignoring
+It happens that changes fall through the cracks -- we aren't deliberately ignoring
 you! So just ping the change to surface it.
 
 On the other hand because people are busy, you might need to wait a day or two
 before getting a response to your change or comments. It's best to give your
 reviewer _some_ time to respond before pinging.
 
-# Intermediate level contributions
+# Advanced contributors
 
-![](slides/intermediate.png)
+![](slides/advanced.png)
 
 Okay, so we've talked about making simple contributions... let's talk about more
 complex changes:
@@ -634,32 +690,7 @@ improvements in the runtime, refactoring and the SSA backend in the compiler,
 and vendoring support in the tools and, there's a lot of work that's being done
 in the subrepos.
 
-## Becoming more involved in the project over time.
-
-![](slides/becoming_more_involved.png)
-
-Our contributors come from many different backgrounds and have different
-motivations for contributing to the project. So everyone's path is going to be
-different... but let's take a step back and look at an example of a progression
-of involvement on the project:
-
-If there's a particular part of the project that you're interested in, start by
-reading the code. If you're confused, that might be an opportunity! It might
-mean that there are missing test cases or documentation. Look for bugs in the
-github issue tracker that are relevant to that part and try to fix them. Once
-you've fixed a number of issues and start becoming more familiar with the code
-base, you might get some ideas for changes you want to make and things you want
-to fix, so you might start making suggestions to the issue tracker or filing
-proposals. And you might start watching for changes done in the directory and
-adding review comments.
-
-Eventually, we'll get tired of submitting your changes for you and we'll make
-you a committer, so you can submit them yourself. But you'll also be able to
-grant "+2"'s to other changes, approving them to be submitted, and to submit
-changes for new contributors. At this point you might become active in reviewing
-changes to that part of the codebase.
-
-# Tips for reviewers
+## Tips for reviewers
 
 ![](slides/tips_for_reviewers.png)
 
@@ -691,7 +722,32 @@ small quibble that is ultimately not a big deal.
 And don't forget, anyone can make review comments on changes. You don't need to
 be a committer to help out with reviews.
 
-# Closing comments:
+# Wrapping up
+
+![](slides/wrapping_up.png)
+
+Our contributors come from many different backgrounds and have different
+motivations for contributing to the project. So everyone's path is going to be
+different... but let's take a step back and look at an example of a progression
+of involvement on the project:
+
+If there's a particular part of the project that you're interested in, start by
+reading the code. If you're confused, that might be an opportunity! It might
+mean that there are missing test cases or documentation. Look for bugs in the
+github issue tracker that are relevant to that part and try to fix them. Once
+you've fixed a number of issues and start becoming more familiar with the code
+base, you might get some ideas for changes you want to make and things you want
+to fix, so you might start making suggestions to the issue tracker or filing
+proposals. And you might start watching for changes done in the directory and
+adding review comments.
+
+Eventually, we'll get tired of submitting your changes for you and we'll make
+you a committer, so you can submit them yourself. But you'll also be able to
+grant "+2"'s to other changes, approving them to be submitted, and to submit
+changes for new contributors. At this point you might become active in reviewing
+changes to that part of the codebase.
+
+## Remember to be nice:
 
 ![](slides/remember_be_nice.png)
 
@@ -700,7 +756,7 @@ contributors. You're representing the go community. Remember to be nice!
 
 And of course,
 
-# Thank you for contributing!
+## Thank you for contributing!
 
 ![](slides/thank_you.png)
 
@@ -710,3 +766,6 @@ project great!
 *Thank you* to ALL our reviewers for the time you spend reviewing. The work you
 do in improving our code quality and teaching our contributors is invaluable!
 
+# Questions?
+
+![](slides/questions.png)
