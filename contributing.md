@@ -116,12 +116,12 @@ I'll finish with tips and advice for more complex contributors.
 
 Let's take a look at the components of the go project.
 
-![](slides/go_core.png)
+![](slides/the_go_core.png)
 
 The core repository contains the compiler and runtime, standard library and
 docs for Go. It's basically the stuff that's distributed by the Go installer.
 
-![](slides/go_subrepos.png)
+![](slides/the_subrepos.png)
 
 The subrepos contain packages and other tools that have been developed as part
 of the project. For instance, 'tools' contains tools such as guru and goimports,
