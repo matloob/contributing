@@ -155,7 +155,7 @@ Don't worry about everything up here, I'll go over all of this later in the talk
 
 ![github](slides/github.png)
 
-We use Github primarisy for its issue tracker. It also hosts our wiki.
+We use Github primarily for its issue tracker. It also hosts our wiki.
 
 This is what the go github page looks like.
 
@@ -195,7 +195,14 @@ For now let's take a look at what it looks like
 If we click on one of the entries, we get the page for that entry.
 
 Gerrit and other code review tools allow us to review code by posting comments
-and assigning scores. We can do both by clicking on the 'reply' button.
+and assigning scores. 
+
+![](slides/gerrit_discussion.png)
+
+Those show up on the email discussion thread for the code review.
+This is what it looks like on gerrit.
+
+We can add those by clicking on the 'reply' button.
 
 Gerrit has a notion of scores...
 
@@ -203,16 +210,19 @@ Gerrit has a notion of scores...
 
 A zero score is neutral.
 
+By the way, you won't see the +2 and -2 and the trybot stuff as a beginning
+contributor. They'll appear once you're a committer.
+
 ![](slides/gerrit_minus_two.png)
 
 A minus two means that the reviewer thinks there's a significant problem with the change
 that needs to be fixed. It blocks a change from being submitted, or merged into our git repo until
 it's retracted.
 
+
 ![](slides/gerrit_minus_one.png)
 
-A minus one means the reviewer thinks there may be issues with the change, but it doesn't
-block submission.
+We don't really use minus ones much.
 
 ![](slides/gerrit_plus_one.png)
 
@@ -447,9 +457,10 @@ embedded within it the path to its source code, so go test regexp is going to
 run the tests for our stable go installation
 
 What we want to do here is to use the version of go we're hacking on.
-all.bash puts the built go binary in $HOME/go/bin/go. Let's check its version
-       
-    $HOME/go/bin/go version
+all.bash puts the built go binary in $HOME/go/bin/go. I'll make an alias
+to that version of go
+
+    alias dev-go="$HOME/go/bin/go"
 
 Cool. And
 
@@ -486,12 +497,20 @@ Let's take a look at the structure of a change description:
 
 (by the way, this is what the change looks like on googlesource.com)
 
+
+![](slides/anatomy_change_description_first_line.png)
+
+
 The path we're making the change to. This is the subdirectory of src in for
 the core repo.
 
 Then there's a short summary that explains what the change does.
 
 Of all the parts of the change description this line is the most important part.
+
+
+![](slides/anatomy_change_description_second_line.png)
+
 
 After that, we provide more details about the change.
 
@@ -550,8 +569,9 @@ page with some code you can paste into your shell to add the key.
 
 ## CLA
 
-![](slides/CLA.png)
+![](slides/cla1.png)
 
+![](slides/cla2.png)
 We'd also need to file a
 Contributor License Agreement granting the Go project a copyright license to
 redistribute your code. git mail will ask you to do that if you haven't yet.
