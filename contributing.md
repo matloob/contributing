@@ -28,7 +28,7 @@ contributors too near the end.
 
 This is the talk I wish I'd seen when I started contributing to the Go project.
 
-When I started contributing, I didn't how to start. I took on a linker bug that
+When I started contributing, I didn't know how to start. I took on a linker bug that
 I didn't know how to fix, and I got really intimidated by the comments on the
 changes that I sent out. So intimidated that I took a break for more than a
 year.
